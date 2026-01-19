@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 import { Bot, User } from 'lucide-react';
 import { ReactNode } from 'react';
 
