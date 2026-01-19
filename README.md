@@ -1,132 +1,161 @@
-# CLI Todo App
+# Ketamine Therapy AI & Learning System
 
-A command-line todo application with priority management built with Python, Typer, and Rich.
+A Next.js web application with AI-powered chat interface and document-based learning system focused exclusively on ketamine therapy knowledge.
 
-## Features
+## 🚀 Overview
 
-- Create tasks with title, description, and priority (high/medium/low)
-- List all tasks with filtering options
-- Update existing tasks
-- Mark tasks as completed
-- Delete tasks
-- Interactive menu system
-- Persistent storage using JSON files
+This project implements a specialized AI system that focuses solely on ketamine therapy education and information. The system features:
 
-## Prerequisites
+- **AI Chat Interface**: Interactive chat where users can ask questions about ketamine therapy
+- **Document Learning System**: Upload PDF, DOCX, TXT, or Markdown files to teach the AI
+- **Knowledge Separation**: Strict separation between ketamine therapy knowledge and general data
+- **RAG (Retrieval Augmented Generation)**: Answers based on uploaded documents, not general knowledge
 
-- Python 3.12+
-- uv package manager
+## 🏗️ Architecture
 
-## Installation
+### Tech Stack
+- **Frontend**: Next.js 16+, Tailwind CSS, Vercel AI SDK
+- **Backend**: Python FastAPI, Uvicorn
+- **Database**: Neon Serverless PostgreSQL with pgvector extension
+- **AI Model**: Mistral via Hugging Face API
+- **Embeddings**: Sentence Transformers
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   uv pip install typer rich pytest
-   ```
+### Knowledge Separation Architecture
+The system maintains two separate knowledge stores:
 
-## Usage
+1. **Ketamine Knowledge Store**:
+   - Contains only ketamine therapy-related content
+   - Used for chat responses via RAG
+   - Powered by vector search in pgvector
 
-### Command Line Interface
+2. **General Storage**:
+   - Stores chat history, logs, and non-training uploads
+   - Never queried during AI responses
 
-The application provides several commands:
+## 🛠️ Setup
 
-#### Create a task
+### Prerequisites
+- Node.js 18+
+- Python 3.10+
+- PostgreSQL with pgvector extension (or Neon account)
+
+### Environment Variables
+
+#### Backend (.env in backend/)
 ```bash
-python -m src.cli.main create --title "Task Title" --description "Task description" --priority high
+DATABASE_URL="postgresql+asyncpg://username:password@localhost:5432/ketamine_ai"
+HF_API_TOKEN="your_huggingface_api_token_here"
+ADMIN_API_KEY="your_admin_api_key_here"
 ```
 
-#### List tasks
+#### Frontend (.env.local in frontend/)
 ```bash
-python -m src.cli.main list-tasks
+NEXT_PUBLIC_BACKEND_URL="http://localhost:8000"
+NEXT_PUBLIC_ADMIN_API_KEY="your_admin_api_key_here"
 ```
 
-#### Update a task
+### Installation
+
+1. **Backend Setup**
 ```bash
-python -m src.cli.main update <task-id> --title "New Title" --completed true
+cd backend
+pip install -r requirements.txt
+python -c "from src.database.init_db import init_db; init_db()"  # Initialize database
+uvicorn src.main:app --reload --port 8000
 ```
 
-#### Complete a task
+2. **Frontend Setup**
 ```bash
-python -m src.cli.main complete <task-id>
+cd frontend
+npm install
+npm run dev
 ```
 
-#### Delete a task
+## 📋 Features
+
+### User Interface (Chat Interface)
+- **Chat UI**: Similar to ChatGPT with streaming responses
+- **Conversation History**: Per-user session management
+- **Medical Disclaimer**: Always visible for safety
+- **Ketamine-Focused**: AI responds only within ketamine therapy domain
+
+### Admin Interface (Training Panel)
+- **File Upload**: Support for PDF, DOCX, TXT, Markdown
+- **Automatic Classification**: AI determines ketamine relevance
+- **Knowledge Management**: View training vs non-training documents
+- **Audit Trail**: Complete logging of all activities
+
+### Learning Logic
+- **Classifier Step**: "Is this content related to ketamine therapy?" → YES/NO
+- **Relevant Content**: Chunked, embedded, and stored in Ketamine Vector Index
+- **Non-Relevant Content**: Stored separately, marked as NON-TRAINING
+- **RAG-First Approach**: Base model unchanged, knowledge injected via vector search
+
+## 🚦 Usage
+
+### For Users
+1. Visit the chat interface at `http://localhost:3000`
+2. Ask questions about ketamine therapy
+3. Receive responses based on the knowledge base
+
+### For Admins
+1. Access the admin panel at `http://localhost:3000/admin`
+2. Upload documents via the upload interface
+3. Monitor which documents are used for training
+4. Manage the knowledge base
+
+## 🛡️ Safety & Compliance
+
+- **No Medical Diagnosis**: Educational content only
+- **Clear Disclaimers**: Prominent medical disclaimers
+- **Auditable Learning**: Complete logs of all training data
+- **Controlled Knowledge**: AI never answers non-ketamine topics
+
+## 📊 Success Criteria
+
+- ✅ AI never answers non-ketamine therapy topics
+- ✅ Knowledge growth is controlled and auditable
+- ✅ Uploaded files affect answers via RAG without retraining
+- ✅ Clean separation of training vs non-training data
+- ✅ Real-time learning from new documents
+
+## 🚀 Deployment
+
+### Backend (to deploy)
 ```bash
-python -m src.cli.main delete <task-id>
+# Build and run
+uvicorn src.main:app --host 0.0.0.0 --port 8000
 ```
 
-#### Interactive menu
+### Frontend (to deploy)
 ```bash
-python -m src.cli.main menu
+# Build and serve
+npm run build
+npm run start
 ```
 
-### Interactive Menu
+## 🤖 API Endpoints
 
-The interactive menu provides a user-friendly way to manage tasks:
-1. Create Task - Add new tasks with title, description, and priority
-2. List Tasks - View all tasks with filtering options
-3. Update Task - Modify existing tasks
-4. Complete Task - Mark tasks as completed
-5. Delete Task - Remove tasks
-6. Exit - Quit the application
+### Chat API
+- `POST /api/v1/chat/chat/` - Submit chat queries with RAG
 
-## Project Structure
+### Admin APIs
+- `POST /api/v1/knowledge-docs/upload/` - Upload and classify documents
+- `GET /api/v1/knowledge-docs/` - List all knowledge documents
+- `GET /api/v1/vector-chunks/` - List vector chunks (with admin auth)
 
-```
-src/
-├── models/
-│   └── task.py          # Task data model with priority, status, etc.
-├── services/
-│   └── task_service.py  # Task management logic (CRUD operations)
-├── cli/
-│   └── main.py          # Main CLI interface with Typer
-└── lib/
-    ├── storage.py       # File-based storage implementation
-    └── logging_config.py # Logging configuration
-```
+## 📄 License
 
-## Testing
+MIT License - see LICENSE file for details.
 
-Run all tests:
-```bash
-python -m pytest
-```
+## 🤝 Contributing
 
-Run unit tests:
-```bash
-python -m pytest tests/unit/
-```
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-Run contract tests:
-```bash
-python -m pytest tests/contract/
-```
+---
 
-## Data Model
-
-### Task
-- `id`: Unique identifier (UUID)
-- `title`: Task title (required, max 200 characters)
-- `description`: Optional task description (max 1000 characters)
-- `priority`: Priority level (high, medium, low)
-- `completed`: Completion status (boolean)
-- `created_at`: Timestamp when task was created
-- `updated_at`: Timestamp when task was last updated
-
-## Architecture
-
-The application follows a clean architecture pattern:
-
-- **Models**: Define the data structures (Task)
-- **Services**: Contain business logic (TaskService)
-- **CLI**: Handle user interface and commands
-- **Lib**: Provide utility functions (Storage, Logging)
-
-## Storage
-
-Tasks are stored in a JSON file named `tasks.json` in the current directory. The storage system provides:
-
-- Save tasks to file
-- Load tasks from file
-- Clear all tasks
+Built with ❤️ for ketamine therapy education and research.

@@ -20,14 +20,29 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.nox/
+.python-version
+uv.lock
 
-# Virtual Environment
-venv/
-env/
-ENV/
+# Virtual Environments
 .venv/
-env.bak/
-.ENV/
+venv/
+ENV/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+.next/
+.nuxt/
+dist/
+.nyc_output
 
 # IDE
 .vscode/
@@ -40,43 +55,46 @@ env.bak/
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-logs/
-
 # Environment variables
 .env
 .env.local
-.env.backup
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Coverage
-.coverage
-htmlcov/
-.pytest_cache/
-pytest_debug_output/
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.lint
+coverage/
+.coverage.*
 
-# Distribution / packaging
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage.xml
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
+# Backend specific
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/venv/
+backend/.pytest_cache/
 
-# pyenv
-.python-version
+# Frontend specific
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/.env.production
+frontend/build/
+frontend/dist/
+frontend/.nuxt/
+frontend/.output/
 
-# Local development
+# Database
+*.db
+*.db-journal
+
+# Temporary files
+*.tmp
+*.temp
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db

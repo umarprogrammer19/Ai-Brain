@@ -1,59 +1,38 @@
-# CLI Application Constitution
+<!-- Sync Impact Report:
+Version change: 1.1.0 → 1.2.0
+Modified principles: Project Mission, Tech Stack Standards, Core Logic Rules → Project Mission, Tech Stack Standards, Fine-Tuning Protocol
+Added sections: Fine-Tuning Protocol
+Removed sections: Core Logic Rules, Documentation
+Templates requiring updates: ⚠ pending - .specify/templates/plan-template.md, .specify/templates/spec-template.md, .specify/templates/tasks-template.md
+Follow-up TODOs: None
+-->
+# Ketamine Therapy AI Constitution
 
 ## Core Principles
 
-### I. Python Version Standard
-All development must use Python 3.12+ version.
+### Project Mission
+- Build a **Ketamine Therapy AI** with a Hybrid Architecture (RAG + Optional Fine-Tuning).
+- **Knowledge Firewall**: The AI must ONLY learn from approved Ketamine documents.
+- **Storage Rule**: All original uploaded files MUST be stored in **Cloudflare R2** (S3 Compatible).
+<!-- Rationale: Ensures the AI system remains focused on ketamine therapy applications while maintaining data integrity and preventing contamination between knowledge domains -->
 
-### II. Package Management
-Always use uv for package management instead of pip.
+### Tech Stack Standards
+- **Frontend**: Next.js 16+, Tailwind, Vercel AI SDK.
+- **Backend**: Python FastAPI, SQLModel.
+- **Database**: Neon Serverless (pgvector).
+- **File Storage**: Cloudflare R2 (via `boto3`).
+- **AI Engine**: Mistral (via Hugging Face).
+<!-- Rationale: Modern, scalable architecture that supports both the knowledge base and interactive chat capabilities while maintaining separation of concerns -->
 
-### III. CLI Framework Standard
-Use typer and rich for CLI interactive functionality.
-
-### IV. Testing Requirement
-Always test after completing each module.
-
-### V. Technology Stack Consistency
-Maintain consistency in using the specified technology stack: Python 3.12+, uv, typer, and rich.
-
-### VI. Quality Assurance
-
-All modules must pass tests before being considered complete.
-
-## Technology Requirements
-
-### Python Version
-All code must be compatible with Python 3.12+ and take advantage of its features.
-
-### Package Management
-- Use uv for all dependency management tasks
-- Avoid pip for dependency installation or management
-- Leverage uv's faster installation and dependency resolution
-
-### CLI Framework
-- Use typer for building command-line interfaces
-- Use rich for rich terminal output and interactive features
-- Follow best practices for CLI design and user experience
-
-## Development Workflow
-
-### Module Development Process
-1. Develop using Python 3.12+ features
-2. Manage dependencies with uv
-3. Build CLI components with typer and rich
-4. Complete comprehensive testing after each module
-5. Ensure all tests pass before marking module as complete
-
-### Testing Standards
-- Unit tests for all functions and classes
-- Integration tests for CLI functionality
-- End-to-end tests for complete workflows
-- Test execution mandatory after module completion
+### Fine-Tuning Protocol (Strict)
+- **Trigger**: ADMIN ONLY. Never automatic.
+- **Data Source**: Only files marked `is_ketamine_relevant=True` and approved by Admin.
+- [cite_start]**Constraint**: User chat logs must NEVER be used for training[cite: 72].
+- [cite_start]**Versioning**: Every fine-tuning job must be logged with a version ID for rollback[</command-args>.
+<!-- Rationale: Maintains the integrity of the knowledge base by ensuring only relevant information is processed and the AI responds appropriately within its scope -->
 
 ## Governance
-This constitution defines the mandatory standards for CLI application development; all development activities must comply with these principles.
 
-All development must follow the specified technology stack and testing requirements.
+The Ketamine Therapy AI Constitution serves as the governing document for all development activities. All team members must comply with these principles. Amendments require documentation of changes, approval from project leadership, and a migration plan for existing implementations. All pull requests and code reviews must verify compliance with these constitutional principles. Use the project documentation for detailed runtime development guidance.
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-05
+**Version**: 1.2.0 | **Ratified**: 2026-01-13 | **Last Amended**: 2026-01-18
